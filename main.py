@@ -19,7 +19,7 @@ def main():
 
     tamagochi = Tamagochi(name='Олег', hunger=50, health=50, energy=50, mood=50)  #  Вместо SimpleTamagochi импортируйте и создайте инстанс от своей реализации
     clicker = TamagochiClicker() #  Вместо SimpleRandomClicker импортируйте и создайте инстанс от своей реализации
-    game = TamagochiGame(tamagochi=tamagochi, clicker=clicker, all_food=all_food, all_medicine=all_medicine, money=0) #  Вместо SimpleGame импортируйте и создайте инстанс от своей реализации
+    game = TamagochiGame(tamagochi=tamagochi, clicker=clicker, all_food=all_food, all_mgitedicine=all_medicine, money=0) #  Вместо SimpleGame импортируйте и создайте инстанс от своей реализации
 
     print("Добро пожаловать в Тамагочи-кликер!")
     output = ''

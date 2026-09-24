@@ -98,7 +98,7 @@ class AbstractGame(ABC):
         raise NotImplementedError
 
 
-class TamagochGame(AbstractGame):
+class TamagochiGame(AbstractGame):
 
     def __init__(self, tamagochi: Tamagochi, clicker, all_food, all_medicine, money):
         super().__init__(tamagochi, clicker, all_food, all_medicine)
@@ -107,24 +107,32 @@ class TamagochGame(AbstractGame):
         self.all_food = all_food
         self.all_medicine = all_medicine
         self.money = money
+        self.my_food = []
+        self.my_medicine = []
 
     def work(self):
         """Clicker"""
         return super().work()
 
     def buy_food(self):
+        food_number = f'Выберите еду: 1-{len(self.all_food)}'
+        self.all_food.append(self.all_food[food_number-1])
         return super().buy_food()
 
     def buy_medicine(self):
-        output = f''
+        medicine_number = f'Выберите лекарство: 1-{len(self.all_medicine)}'
+        self.my_medicine.append(self.all_medicine[medicine_number-1])
         return super().buy_medicine()
 
-    def feed_tamagochi(self, food: int):
-        self.tamagochi.feed(self.all_food[food])
+    def feed_tamagochi(self,):
+        food_number = f'Выберите еду: 1-{len(self.my_food)}'
+        self.tamagochi.feed(self.my_food[food_number-1])
+        self.my_food.pop(food_number-1)
         return super().feed_tamagochi()
 
-    def heal_tamagochi(self, medicine: 1):
-        self.tamagochi.heal(self.all_medicine[medicine])
+    def heal_tamagochi(self):
+        medicine_number = f'Выберите лекарство: 1-{len(self.my_medicine)}'
+        self.tamagochi.heal(self.my_medicine[medicine_number-1])
         return super().heal_tamagochi()
 
     def rest_tamagochi(self):
@@ -139,7 +147,11 @@ class TamagochGame(AbstractGame):
         super().get_status()
         self.tamagochi.get_status
         return self.tamagochi.status()
-
+    
     @property
     def food(self):
         return super().food
+
+    @property
+    def medicine(self):
+        return super().medicine

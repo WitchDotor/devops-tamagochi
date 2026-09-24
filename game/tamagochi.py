@@ -112,7 +112,6 @@ class Tamagochi(AbstractTamagochi):
         self.health+=medicine.heal_hp
         return super().heal(medicine)
 
-    @property
     def status(self):
         super().status
         status = {

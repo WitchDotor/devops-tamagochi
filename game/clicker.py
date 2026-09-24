@@ -29,6 +29,7 @@ class TamagochiClicker(AbstractClicker):
 
     def click(self):
         return super().click()
-
+    
+    @property
     def income_per_click(self):
         return super().income_per_click
