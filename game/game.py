@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from .tamagochi import AbstractTamagochi
+from .tamagochi import AbstractTamagochi, Tamagochi
 from .clicker import AbstractClicker
 from .models import Food, Medicine
 
@@ -96,3 +96,50 @@ class AbstractGame(ABC):
         :return: список с имеющимися (купленными) объектами лекарств
         """
         raise NotImplementedError
+
+
+class TamagochGame(AbstractGame):
+
+    def __init__(self, tamagochi: Tamagochi, clicker, all_food, all_medicine, money):
+        super().__init__(tamagochi, clicker, all_food, all_medicine)
+        self.tamagochi = tamagochi
+        self.clicker = clicker
+        self.all_food = all_food
+        self.all_medicine = all_medicine
+        self.money = money
+
+    def work(self):
+        """Clicker"""
+        return super().work()
+
+    def buy_food(self):
+        return super().buy_food()
+
+    def buy_medicine(self):
+        output = f''
+        return super().buy_medicine()
+
+    def feed_tamagochi(self, food: int):
+        self.tamagochi.feed(self.all_food[food])
+        return super().feed_tamagochi()
+
+    def heal_tamagochi(self, medicine: 1):
+        self.tamagochi.heal(self.all_medicine[medicine])
+        return super().heal_tamagochi()
+
+    def rest_tamagochi(self):
+        self.tamagochi.rest()
+        return super().rest_tamagochi()
+
+    def play_with_tamagochi(self):
+        self.tamagochi.play
+        return super().play_with_tamagochi()
+
+    def get_status(self):
+        super().get_status()
+        self.tamagochi.get_status
+        return self.tamagochi.status()
+
+    @property
+    def food(self):
+        return super().food

@@ -21,3 +21,14 @@ class AbstractClicker(ABC):
     def income_per_click(self) -> int:
         """Абстрактное свойство для доступа к количеству монет за клик"""
         raise NotImplementedError
+
+
+class TamagochiClicker(AbstractClicker):
+    def __init__(self):
+        super().__init__()
+
+    def click(self):
+        return super().click()
+
+    def income_per_click(self):
+        return super().income_per_click

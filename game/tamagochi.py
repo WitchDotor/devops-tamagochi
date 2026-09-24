@@ -1,6 +1,7 @@
 """Модуль с интерфейсом и реализациями класса тамагочи"""
 
 from abc import ABC, abstractmethod
+import random
 
 from .models import Food, Medicine
 
@@ -71,3 +72,60 @@ class AbstractTamagochi(ABC):
         Должен использоваться после каждого взаимодействия с тамагочи
         """
         raise NotImplementedError
+
+
+class Tamagochi(AbstractTamagochi):
+
+    def __init__(self, name: str, hunger: int, health: int, energy: int, mood: int):
+        super().__init__()
+        self.name = name
+        self.hunger = hunger
+        self.health = health
+        self.energy = energy
+        self.mood = mood
+
+    def feed(self, food):
+        """ """
+        self.hunger+=food.satiety
+        self.energy-=5
+        self.mood-=5
+        return super().feed(food)
+
+    def play(self):
+        """ """
+        self.mood+=15
+        self.energy-=5
+        self.hunger-=5
+        if random.randrange(0, 100, 1)>50:
+            self.health-=random.randrange(0, 10, 1)
+        return super().play()
+
+    def rest(self):
+        """ """
+        self.hunger-=5
+        self.mood-=5
+        self.energy+=15
+        return super().rest()
+
+    def heal(self, medicine):
+        """ """
+        self.health+=medicine.heal_hp
+        return super().heal(medicine)
+
+    @property
+    def status(self):
+        super().status
+        status = {
+            'Health': self.health,
+            'Hunger': self.hunger,
+            'Energy': self.energy,
+            'Mood': self.mood
+        }
+        return status
+
+    def is_alive(self):
+        super().is_alive()
+        return self.health > 0
+
+    def update(self):
+        return super().update()
