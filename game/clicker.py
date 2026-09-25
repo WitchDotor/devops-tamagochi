@@ -54,7 +54,8 @@ class TamagochiClicker(AbstractClicker):
                 if bstate & (curses.BUTTON1_CLICKED | curses.BUTTON1_RELEASED):
                     self.click()
                     message = (f"Клик — кормить, q — выход \n"
-                               f"Заработано: {self.income_per_click}, всего: {self.income_in_session}")
+                               f"Заработано: {self.income_per_click}, "
+                               f"всего: {self.income_in_session}")
                     self.stdscr.clear()
                     self.stdscr.addstr(0, 0, message)
                     self.stdscr.refresh()

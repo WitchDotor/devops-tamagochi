@@ -101,7 +101,12 @@ class AbstractGame(ABC):
 
 class TamagochiGame(AbstractGame):
 
-    def __init__(self, tamagochi: Tamagochi, clicker: TamagochiClicker, all_food, all_medicine, coins: int):
+    def __init__(self,
+                 tamagochi: Tamagochi,
+                 clicker: TamagochiClicker,
+                 all_food,
+                 all_medicine,
+                 coins: int):
         self.tamagochi = tamagochi
         self.clicker = clicker
         self.all_food = all_food
@@ -139,7 +144,8 @@ class TamagochiGame(AbstractGame):
         for i in self.all_medicine:
             index = self.all_medicine.index(i) + 1
             print(f'{index}. {i}')
-        medicine_number = input(f'Выберите лекарство: 1-{len(self.all_medicine)}: ')
+        medicine_number = (
+            input(f'Выберите лекарство: 1-{len(self.all_medicine)}: '))
         index = int(medicine_number) - 1
         if not self.check_correct_input(index, self.my_medicine):
             return
@@ -154,7 +160,8 @@ class TamagochiGame(AbstractGame):
     def feed_tamagochi(self):
         """Кормить тамагочи"""
         if len(self.my_food) == 0:
-            print(f'У вас нет еды. Купите её!')
+            print('У вас нет еды. '
+                  'Купите её!')
             return
         for i in self.my_food:
             index = self.my_food.index(i) + 1
@@ -170,13 +177,15 @@ class TamagochiGame(AbstractGame):
     def heal_tamagochi(self):
         """Лечить тамагочи"""
         if len(self.my_medicine) == 0:
-            print(f'У вас нет медикаментов Купите их!')
+            print('У вас нет медикаментов '
+                  'Купите их!')
             time.sleep(1)
             return
         for i in self.my_medicine:
             index = self.my_medicine.index(i) + 1
             print(f'{index}. {i}')
-        medicine_number = input(f'Выберите лекарство: 1-{len(self.my_medicine)}: ')
+        medicine_number = (
+            input(f'Выберите лекарство: 1-{len(self.my_medicine)}: '))
         index = int(medicine_number) - 1
         if not self.check_correct_input(index, self.my_medicine):
             return

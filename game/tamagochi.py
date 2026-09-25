@@ -66,18 +66,14 @@ class AbstractTamagochi(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
-    def update(self) -> None:
-        """
-        Абстрактный метод для обновления состояний тамагочи.
-        Должен использоваться после каждого взаимодействия с тамагочи
-        """
-        raise NotImplementedError
-
-
 class Tamagochi(AbstractTamagochi):
 
-    def __init__(self, name: str, hunger: int, health: int, energy: int, mood: int):
+    def __init__(self,
+                 name: str,
+                 hunger: int,
+                 health: int,
+                 energy: int,
+                 mood: int):
         self.name = name
         self.hunger = hunger
         self.health = health
@@ -127,7 +123,3 @@ class Tamagochi(AbstractTamagochi):
     def is_alive(self):
         """Проверяет, жив ли питомец."""
         return self.health > 0
-
-    def update(self):
-        """Обновляет состояние питомца."""
-        pass
