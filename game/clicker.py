@@ -1,5 +1,5 @@
 """Модуль с интерфейсом и реализацией кликера"""
-
+import curses
 from abc import ABC, abstractmethod
 
 
@@ -24,12 +24,51 @@ class AbstractClicker(ABC):
 
 
 class TamagochiClicker(AbstractClicker):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, click_reward: int):
+        self.click_reward = click_reward
+        self.income_in_session = 0
+        self.stdscr = None
 
-    def click(self):
-        return super().click()
-    
     @property
     def income_per_click(self):
-        return super().income_per_click
+        """Геттер для текущего заработка за клик"""
+        return self.click_reward
+
+    def open_clicker(self, stdscr):
+        """Запускает окно кликера"""
+        self.stdscr = stdscr
+        curses.mousemask(curses.BUTTON1_CLICKED | curses.BUTTON1_RELEASED)
+
+        self.stdscr.addstr(0, 0, "Клик — кормить, q — выход")
+        self.stdscr.refresh()
+
+        while True:
+            key = self.stdscr.getch()
+
+            if key == curses.KEY_MOUSE:
+                try:
+                    _, mx, my, _, bstate = curses.getmouse()
+                except curses.error:
+                    continue
+
+                if bstate & (curses.BUTTON1_CLICKED | curses.BUTTON1_RELEASED):
+                    self.click()
+                    message = (f"Клик — кормить, q — выход \n"
+                               f"Заработано: {self.income_per_click}, всего: {self.income_in_session}")
+                    self.stdscr.clear()
+                    self.stdscr.addstr(0, 0, message)
+                    self.stdscr.refresh()
+
+            elif key == ord('q'):
+                self.stdscr.clear()
+                self.stdscr.refresh()
+
+                break
+
+    def click(self):
+        """Увеличивает текущий запас монет"""
+        self.income_in_session += self.income_per_click
+
+    def reset_income(self):
+        """Сбрасывает счет монет за сессию"""
+        self.income_in_session = 0

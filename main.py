@@ -1,6 +1,15 @@
 import os
 
 from game.clicker import TamagochiClicker
+from game.constants import (BURGER,
+                            SALAD,
+                            APPLE,
+                            IBUPROFEN,
+                            HUNGER,
+                            HEALTH,
+                            ENERGY,
+                            COINS,
+                            MOOD)
 from game.game import TamagochiGame
 from game.models import Food, Medicine
 from game.tamagochi import Tamagochi
@@ -8,18 +17,26 @@ from game.tamagochi import Tamagochi
 
 def main():
     all_food = [
-        Food(name='Бургер', satiety=20, price=40),
-        Food(name='Салат', satiety=10, price=20),
-        Food(name='Яблоко', satiety=10, price=15)
+        Food(name=BURGER, satiety=20, price=40),
+        Food(name=SALAD, satiety=10, price=20),
+        Food(name=APPLE, satiety=10, price=15)
     ]
 
     all_medicine = [
-        Medicine(name='Ибупрофен', price=30, heal_hp=20, number_of_uses=2)
+        Medicine(name=IBUPROFEN, price=30, heal_hp=20, number_of_uses=2)
     ]
 
-    tamagochi = Tamagochi(name='Олег', hunger=50, health=50, energy=50, mood=50)  #  Вместо SimpleTamagochi импортируйте и создайте инстанс от своей реализации
-    clicker = TamagochiClicker() #  Вместо SimpleRandomClicker импортируйте и создайте инстанс от своей реализации
-    game = TamagochiGame(tamagochi=tamagochi, clicker=clicker, all_food=all_food, all_mgitedicine=all_medicine, money=0) #  Вместо SimpleGame импортируйте и создайте инстанс от своей реализации
+    tamagochi = Tamagochi(name='Олег',
+                          hunger=50,
+                          health=50,
+                          energy=50,
+                          mood=50)
+    clicker = TamagochiClicker(click_reward=10)
+    game = TamagochiGame(tamagochi=tamagochi,
+                         clicker=clicker,
+                         all_food=all_food,
+                         all_medicine=all_medicine,
+                         coins=0)
 
     print("Добро пожаловать в Тамагочи-кликер!")
     output = ''
@@ -31,9 +48,13 @@ def main():
         print(f"Сумка с лекарствами: {game.medicine}")
 
         status = game.get_status()
+
         print(
-            f"\nСтатус: голод {status['hunger']}, здоровье {status['hp']}, "
-            f"энергия {status['energy']}, монет {status['coins']}\n"
+            f"\nСтатус: голод: {status[HUNGER]}, "
+            f"здоровье: {status[HEALTH]}, "
+            f"энергия: {status[ENERGY]},"
+            f"настроение: {status[MOOD]}, "
+            f"монет: {status[COINS]}\n"
         )
         if game.tamagochi.is_sick():
             print("=======Тамагочи болеет======")
@@ -52,8 +73,10 @@ def main():
                 income = game.work()
                 output = f'Вы заработали {income} монет'
                 game.tamagochi.update()
+
             case "2":
                 game.buy_food()
+
             case "3":
                 game.buy_medicine()
             case "4":

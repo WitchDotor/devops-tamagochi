@@ -3,7 +3,8 @@
 from abc import ABC, abstractmethod
 import random
 
-from .models import Food, Medicine
+from game.constants import HEALTH, HUNGER, ENERGY, MOOD
+from game.models import Food, Medicine
 
 
 class AbstractTamagochi(ABC):
@@ -77,54 +78,56 @@ class AbstractTamagochi(ABC):
 class Tamagochi(AbstractTamagochi):
 
     def __init__(self, name: str, hunger: int, health: int, energy: int, mood: int):
-        super().__init__()
         self.name = name
         self.hunger = hunger
         self.health = health
+        self.max_health = health
         self.energy = energy
         self.mood = mood
 
     def feed(self, food):
-        """ """
-        self.hunger+=food.satiety
-        self.energy-=5
-        self.mood-=5
-        return super().feed(food)
+        """Кормит питомца: восполняет голод за счёт сытости еды. """
+        self.hunger += food.satiety
+        self.energy -= 5
+        self.mood -= 5
 
     def play(self):
-        """ """
-        self.mood+=15
-        self.energy-=5
-        self.hunger-=5
-        if random.randrange(0, 100, 1)>50:
-            self.health-=random.randrange(0, 10, 1)
-        return super().play()
+        """Играет с питомцем: поднимает настроение, но утомляет."""
+        self.mood += 15
+        self.energy -= 5
+        self.hunger -= 5
+        if random.randrange(0, 100, 1) > 50:
+            self.health -= random.randrange(0, 10, 1)
 
     def rest(self):
-        """ """
-        self.hunger-=5
-        self.mood-=5
-        self.energy+=15
-        return super().rest()
+        """Отдых питомца: восстанавливает энергию."""
+        self.hunger -= 5
+        self.mood -= 5
+        self.energy += 15
 
     def heal(self, medicine):
-        """ """
-        self.health+=medicine.heal_hp
-        return super().heal(medicine)
+        """Лечит питомца с помощью лекарства."""
+        self.health += medicine.heal_hp
 
+    @property
     def status(self):
-        super().status
+        """Возвращает словарь с текущими характеристиками питомца."""
         status = {
-            'Health': self.health,
-            'Hunger': self.hunger,
-            'Energy': self.energy,
-            'Mood': self.mood
+            HEALTH: self.health,
+            HUNGER: self.hunger,
+            ENERGY: self.energy,
+            MOOD: self.mood
         }
         return status
 
+    def is_sick(self) -> bool:
+        """Проверяет, болен ли питомецю"""
+        return self.health <= self.max_health
+
     def is_alive(self):
-        super().is_alive()
+        """Проверяет, жив ли питомец."""
         return self.health > 0
 
     def update(self):
-        return super().update()
+        """Обновляет состояние питомца."""
+        pass
